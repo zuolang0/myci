@@ -54,7 +54,12 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 #路由配置
 $route['news/create'] = 'home/news/create';
-$route['news/(:any)'] = 'home/news/view/$1';
+#配置没有页码直接跳第一页
+$route['news/pages'] = 'home/news/pages';
+#配置页码路由
+$route['news/pages/(:any)'] = 'home/news/pages/$1';
+#$route['news/(:any)'] = 'home/news/view/$1';
 $route['news'] = 'home/news';
-$route['(:any)'] = 'pages/view/$1';
-$route['default_controller'] = 'pages/view';
+#$route['(:any)'] = 'pages/view/$1';
+#$route['default_controller'] = 'pages/view';
+
