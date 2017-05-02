@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+	<title>预约试驾</title>
+<script type="text/javascript" src="<?php echo base_url()?>public/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>public/js/area.js"></script>
+
+<link rel="stylesheet" type="text/css" href="<?php echo base_url()?>public/css/manhuaDate.1.0.css">
+<script type="text/javascript" src="<?php echo base_url()?>public/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>public/js/manhuaDate.js"></script>
+<script type="text/javascript">
+$(function (){
+	$("input.mh_date").manhuaDate({					       
+		Event : "click",//可选				       
+		Left : 0,//弹出时间停靠的左边位置
+		Top : -16,//弹出时间停靠的顶部边位置
+		fuhao : "-",//日期连接符默认为-
+		isTime : false,//是否开启时间值默认为false
+		beginY : 2010,//年份的开始默认为1949
+		endY :2015//年份的结束默认为2049
+	});
+	
+});
+$(function() {
+	/*省份遍历*/
+    $.each(provinceJson, function(k, p) {
+        var option = "<option value='" + p.regionId + "'>" + p.regionName + "</option>";
+        $("#selProvince").append(option);
+    });
+
+    /*选择省份遍历*/
+    $("#selProvince").change(function() {
+        var selValue = $(this).val();
+        $.each(provinceJson,function(k,p){
+        	if (p.regionId==selValue) {
+        		$("#provincecode").val(p.regionCode);
+        		get_jxs(p.regionCode,2);
+        	}
+        });
+        /*清除s市/区*/
+        $("#selCity option:gt(0)").remove();
+        $("#selDistrict option:gt(0)").remove();
+        $.each(cityJson, function(k, p) {
+            // 直辖市处理.|| p.parent == selValue，直辖市为当前自己
+            if (p.regionId == selValue || p.parentCode == selValue) {
+                var option = "<option value='" + p.regionId + "'>" + p.regionName + "</option>";
+                $("#selCity").append(option);
+            }
+        });
+       // get_jxs(regionCode,2);
+    });
+    /*选择市*/
+    $("#selCity").change(function() {
+        var selValue = $(this).val();
+        $("#selDistrict option:gt(0)").remove();
+        /*写地区code*/
+        $.each(cityJson,function(k,p){
+        	if (p.regionId==selValue) {
+        		$("#citycode").val(p.regionCode);
+        		get_jxs(p.regionCode,3);
+        	}
+        });
+        /*写下级地区*/
+        $.each(countyJson, function(k, p) {
+            if (p.parentCode == selValue) {
+                var option = "<option value='" + p.regionId + "'>" + p.regionName + "</option>";
+                $("#selDistrict").append(option);
+            }
+        });
+    });
+    /*选择区*/
+    $("#selDistrict").change(function(){
+    	var selValue=$(this).val();
+    	$.each(countyJson,function(k,p){
+    		if (p.regionId == selValue) {
+    			$("#countycode").val(p.regionCode);
+    			get_jxs(p.regionCode,4);
+    		}
+    	})
+    });
+    /*地区联动经销商*/
+    function get_jxs(code,level){
+    	$.post("<?php echo site_url()?>/reserve/get_jxs", {code:code,level:level },function(data){
+    	if (data!='') {
+    		$("#jxs option:gt(0)").remove();
+    		$.each(data,function(k,p){
+     		var option = "<option value='" + p.dealerId + "'>" + p.dealerName + "</option>";
+     		$("#jxs").append(option);
+     		});
+    	}
+   	}, "json");
+    }
+});
+</script>
+</head>
+
+<body>
+<h2 style="text-align: center;">预约试驾</h2>
+
+<?php echo form_open('reserve/reserve/index'); ?>
+<table style="text-align: left;">
+	<tr style="height: 30px;">
+		<td style="text-align: right;">您的信息:</td>
+		<td><input type="text" name="name"></td>
+		<td colspan="2">请输入您的真实姓名,方便我们联系您</td>
+		<td></td>
+	</tr>
+	<tr style="height: 30px;">
+		<td></td>
+		<td><input type="text" name="mobile"></td>
+		<td colspan="2">请输入您的手机号码,方便我们联系您</td>
+		<td></td>
+	</tr>
+	<tr style="height: 30px;">
+		<td style="text-align: right;">选择车系:</td>
+		<td><select style="width: 140px;">
+				<option>选择品牌</option>
+				<option selected="true">长安</option>
+			</select>
+		</td>
+		<td colspan="3"><select name="car_series" style="width: 140px;">
+				<option>选择车型</option>
+				<?php foreach ($car as $car_item): ?>
+				<option value="<?php echo $car_item['groupId']?>"><?php echo $car_item['groupName']?></option>
+				<?php endforeach; ?>
+			</select>
+		</td>
+	</tr>
+	<tr style="height: 30px;">
+		<td style="text-align: right;">选择您最近的4s店:</td>
+		<td>
+			<select style="width: 140px;" name="province" id="selProvince">
+				<option value="">选择省份</option>
+			</select>
+			<input type="hidden" id="provincecode">
+		</td>
+		<td>
+			<select style="width: 140px;" name="city" id="selCity">
+				<option value="">选择城市</option>
+			</select>
+			<input type="hidden" id="citycode">
+		</td>
+		<td>
+			<select style="width: 140px;" name="county" id="selDistrict">
+				<option value="">选择地区</option>
+			</select>
+			<input type="hidden" id="countycode">
+		</td>
+		<td><select name="dealer_id" style="width: 140px;" name="jxs" id="jxs">
+				<option value="">选择经销商</option>
+			</select>
+		</td>
+	</tr>
+	<tr style="height: 30px;">
+		<td style="text-align: right;">预约试驾时间:</td>
+		<td style="text-align: center;">计划试驾时间</td>
+		<td colspan="2"><input type="text" class="mh_date" name="visit_time" readonly="true" /></td>
+		<td></td>
+	</tr>
+	<tr style="height: 30px;">
+		<td></td>
+		<td style="text-align: center;">计划购车时间</td>
+		<td colspan="2"><input type="text" name="order_time" class="mh_date" readonly="true" /></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td colspan="4" style="text-align: center;">
+		<input type="submit" name=""></td>
+	</tr>
+</table>
+</form>
+</body>
+<script type="text/javascript">
+	
+</script>
+</html>

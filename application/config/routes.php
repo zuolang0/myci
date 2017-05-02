@@ -54,12 +54,14 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 #路由配置
 $route['news/create'] = 'home/news/create';
-#配置没有页码直接跳第一页
+#配置基本路由
 $route['news/pages'] = 'home/news/pages';
 #配置页码路由
 $route['news/pages/(:any)'] = 'home/news/pages/$1';
 #$route['news/(:any)'] = 'home/news/view/$1';
 $route['news'] = 'home/news';
+$route['reserve'] = 'reserve/reserve';
+$route['reserve/area_file'] = 'reserve/reserve/area_file';
+$route['reserve/get_jxs'] = 'reserve/reserve/get_jxs';
 #$route['(:any)'] = 'pages/view/$1';
 #$route['default_controller'] = 'pages/view';
-

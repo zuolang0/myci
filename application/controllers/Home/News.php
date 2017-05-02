@@ -14,6 +14,12 @@ class News extends CI_Controller{
 		$this->load->view('news/index',$data);
 		$this->load->view('template/footer');
 	}
+	/**
+	 * [pages 分页]
+	 * @author Greedywolf 1154505909@qq.com
+	 * @DateTime 2017-04-26
+	 * @return   [type]     [description]
+	 */
 	public function pages(){
 		$this->load->library('pagination');
 		$config['base_url']=site_url('news/pages');
@@ -23,7 +29,7 @@ class News extends CI_Controller{
 		$config['full_tag_open']='<p>';
 		$config['full_tag_close']='</p>';
 		$this->pagination->initialize($config);
-		$data['result']=$this->news->get_new_page($config['per_page'],$this->uri->segment(3));
+		$data['result']=$this->news->get_new_page($config['per_page'],$this->uri->segment(3,1));
 		$this->load->library('table');
 		$this->table->set_heading('ID','Title','text');
 		$this->load->view('news/page',$data);
