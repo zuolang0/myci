@@ -2,12 +2,19 @@
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <head>
-	<title>预约试驾</title>
+<title>预约试驾</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">   
 <script type="text/javascript" src="<?php echo base_url()?>public/js/jquery.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>public/js/area.js"></script>
 
+<script type="text/javascript" src="<?php echo base_url()?>public/bootstrap/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url()?>public/bootstrap/css/bootstrap.min.css">
+
 <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>public/css/manhuaDate.1.0.css">
 <script type="text/javascript" src="<?php echo base_url()?>public/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>public/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="<?php echo base_url()?>public/js/manhuaDate.js"></script>
 <script type="text/javascript">
 $(function (){
@@ -17,8 +24,8 @@ $(function (){
 		Top : -16,//弹出时间停靠的顶部边位置
 		fuhao : "-",//日期连接符默认为-
 		isTime : false,//是否开启时间值默认为false
-		beginY : 2010,//年份的开始默认为1949
-		endY :2015//年份的结束默认为2049
+		beginY : 2017,//年份的开始默认为1949
+		endY :2049//年份的结束默认为2049
 	});
 	
 });
@@ -79,9 +86,17 @@ $(function() {
     		}
     	})
     });
+
     /*地区联动经销商*/
     function get_jxs(code,level){
-    	$.post("<?php echo site_url()?>/reserve/get_jxs", {code:code,level:level },function(data){
+    	var csrf=$.cookie('csrf_cookie_name');
+    	var post_data = {
+        'code': code,
+        'level':level,
+        '<?php echo $this->security->get_csrf_token_name(); ?>': csrf
+    };
+    	
+    	$.post("<?php echo site_url()?>/reserve/get_jxs", post_data,function(data){
     	if (data!='') {
     		$("#jxs option:gt(0)").remove();
     		$.each(data,function(k,p){
@@ -100,26 +115,26 @@ $(function() {
 
 <?php echo form_open('reserve/reserve/index'); ?>
 <table style="text-align: left;">
-	<tr style="height: 30px;">
+	<tr style="height: 35px;">
 		<td style="text-align: right;">您的信息:</td>
-		<td><input type="text" name="name"></td>
+		<td><input class="form-control" type="text" name="name"></td>
 		<td colspan="2">请输入您的真实姓名,方便我们联系您</td>
 		<td></td>
 	</tr>
-	<tr style="height: 30px;">
+	<tr style="height: 35px;">
 		<td></td>
-		<td><input type="text" name="mobile"></td>
+		<td><input type="text" class="form-control" name="mobile"></td>
 		<td colspan="2">请输入您的手机号码,方便我们联系您</td>
 		<td></td>
 	</tr>
 	<tr style="height: 30px;">
 		<td style="text-align: right;">选择车系:</td>
-		<td><select style="width: 140px;">
+		<td><select class="form-control" >
 				<option>选择品牌</option>
 				<option selected="true">长安</option>
 			</select>
 		</td>
-		<td colspan="3"><select name="car_series" style="width: 140px;">
+		<td colspan="3"><select class="form-control" name="car_series" >
 				<option>选择车型</option>
 				<?php foreach ($car as $car_item): ?>
 				<option value="<?php echo $car_item['groupId']?>"><?php echo $car_item['groupName']?></option>
@@ -130,24 +145,24 @@ $(function() {
 	<tr style="height: 30px;">
 		<td style="text-align: right;">选择您最近的4s店:</td>
 		<td>
-			<select style="width: 140px;" name="province" id="selProvince">
+			<select class="form-control"  name="province" id="selProvince">
 				<option value="">选择省份</option>
 			</select>
 			<input type="hidden" id="provincecode">
 		</td>
 		<td>
-			<select style="width: 140px;" name="city" id="selCity">
+			<select class="form-control" name="city" id="selCity">
 				<option value="">选择城市</option>
 			</select>
 			<input type="hidden" id="citycode">
 		</td>
 		<td>
-			<select style="width: 140px;" name="county" id="selDistrict">
+			<select class="form-control" name="county" id="selDistrict">
 				<option value="">选择地区</option>
 			</select>
 			<input type="hidden" id="countycode">
 		</td>
-		<td><select name="dealer_id" style="width: 140px;" name="jxs" id="jxs">
+		<td><select name="dealer_id" class="form-control" name="jxs" id="jxs">
 				<option value="">选择经销商</option>
 			</select>
 		</td>
@@ -165,7 +180,7 @@ $(function() {
 		<td></td>
 	</tr>
 	<tr>
-		<td colspan="4" style="text-align: center;">
+		<td colspan="4"  style="text-align: center;">
 		<input type="submit" name=""></td>
 	</tr>
 </table>

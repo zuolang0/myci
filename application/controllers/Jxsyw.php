@@ -8,9 +8,6 @@ class Jxsyw extends CI_Controller{
 	}
 
 	public function wl_jc(){
-
-		#复制后修改方法名，表名
-		#
 		$webserver="http://202.98.63.70:8000/jcwbs/services/dealerBusinessArea?wsdl";
 		#参数
 		$params=array(

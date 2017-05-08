@@ -127,6 +127,7 @@ class Jxsjc extends CI_Controller{
 			#对象转数组
 			$rel_array = json_decode(json_encode($rel_result), true);
 			$respone=$rel_array['return'];
+			var_dump($respone);die;
 			$this->yongyou->adddata($table,$respone);
 		}
 	}

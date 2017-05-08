@@ -10,10 +10,18 @@ class Car_model extends CI_Model{
 		$result= $this->db->select('groupId,groupName')->get('fittle_car_jc_notnull');
 		return $result->result_array();
 	}
+	/**
+	 * [get_name_by_groupId description]
+	 * @author Greedywolf 1154505909@qq.com
+	 * @DateTime 2017-05-03
+	 * @param    [type]     $groupId [description]
+	 * @return   [type]              [description]
+	 */
 	public function get_name_by_groupId($groupId){
 		$this->db->select('groupName')->where(array('groupId'=>$groupId));
 		$query=$this->db->get('fittle_car_jc_notnull');
 		$result=$query->row();
 		return $result->groupName;
 	}
+	
 }

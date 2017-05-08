@@ -8,7 +8,7 @@ class Jxs_model extends CI_Model{
 	 * @return   [type]                [description]
 	 */
 	public function get_area_jxs($where){
-		$this->db->select('dealerId,dealerCode,dealerName,')->where($where);
+		$this->db->select('dealerId,dealerCode,dealerName')->where($where);
 		$query=$this->db->get('fittle_cyc_jc');
 		return $query->result_array();
 	}
@@ -25,10 +25,30 @@ class Jxs_model extends CI_Model{
 		$result = $query->row();
     	return $result->dealerName; 
 	}
+	/**
+	 * [get_code_by_dealerid 获取经销商code]
+	 * @author Greedywolf 1154505909@qq.com
+	 * @DateTime 2017-05-03
+	 * @param    [type]     $dealerId [description]
+	 * @return   [type]               [description]
+	 */
 	public function get_code_by_dealerid($dealerId){
 		$this->db->select('dealerCode')->where(array('dealerId'=>$dealerId));
 		$query=$this->db->get('fittle_cyc_jc');
 		$result = $query->row();
     	return $result->dealerCode; 
+	}
+
+	/**
+	 * [get_area 获取经销商地区编码]
+	 * @author Greedywolf 1154505909@qq.com
+	 * @DateTime 2017-05-03
+	 * @param    [type]     $seach [description]
+	 * @return   [type]            [description]
+	 */
+	public function get_area($seach){
+		$this->db->select($seach)->where("$seach != ''")->group_by($seach);
+		$query=$this->db->get('fittle_cyc_jc');
+		return $query->result_array();
 	}
 }

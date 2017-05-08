@@ -22,9 +22,7 @@ $(function() {
 		var $mhInput = $(this);
 		var isToday = true;//是否为今天默认为是	
 		var date = new Date();//获得时间对象
-
 		var nowYear = date.getFullYear();//获得当前年份
-		
 		var nowMonth = date.getMonth() + 1;//获得当前月份
 		var today = date.getDate();//获得当前天数
 		var nowWeek = new Date(nowYear, nowMonth - 1, 1).getDay();//获得当前星期

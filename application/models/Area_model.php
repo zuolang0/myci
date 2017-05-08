@@ -38,4 +38,16 @@ class Area_model extends CI_Model{
 		$result = $query->row();
     	return $result->regionName;  
 	}
+	/**
+	 * [get_city_by_id 获取地区]
+	 * @author Greedywolf 1154505909@qq.com
+	 * @DateTime 2017-05-03
+	 * @param    [type]     $where [description]
+	 * @return   [type]            [description]
+	 */
+	public function get_city_by_id($where){
+		$this->db->select('regionName,regionId,regionCode,parentCode')->where($where)->order_by('regionId');#10011002
+		$query = $this->db->get('area_jc');
+		return $query->result_array();
+	}
 }
