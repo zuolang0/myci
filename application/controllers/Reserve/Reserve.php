@@ -191,7 +191,6 @@ class Reserve extends CI_Controller{
 		$town=self::jxs_area($seach);
 		#地区数组转json
 		$Json="var provinceJson =".json_encode($province)."\n\nvar cityJson =".json_encode($city)."\n\nvar countyJson =".json_encode($town);
-		#var_dump($Json);die;
 		#写入文件
 		if ( ! write_file('./public/js/area.js', $Json)){
 		    	echo 'Unable to write the file';

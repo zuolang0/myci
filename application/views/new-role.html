@@ -2,12 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title><?php echo $title; ?></title>	
+   <title>新增角色 简洁Bootstrap响应式后台管理系统模板下载</title>	
+	<meta name="keywords" content="Bootstrap模板,Bootstrap3模版,Bootstrap模板下载,Bootstrap后台模板,Bootstrap教程,Bootstrap中文,后台管理系统模板,后台模板下载,后台管理系统,后台管理模板" />
+	<meta name="description" content="JS代码网提供Bootstrap模板,后台管理系统模板,后台管理界面,Bootstrap后台板版下载" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="<?php echo base_url()?>public/css/bootstrap.css" rel="stylesheet">
-	<link href="<?php echo base_url()?>public/css/site.css" rel="stylesheet">
-    <link href="<?php echo base_url()?>public/css/bootstrap-responsive.css" rel="stylesheet">
-
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/site.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -51,6 +57,7 @@
         </div>
       </div>
     </div>
+
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span3">
@@ -58,15 +65,61 @@
             <ul class="nav nav-list">
               <li class="nav-header"><i class="icon-wrench"></i> Administration</li>
               <li><a href="users.html">Users</a></li>
-              <li><a href="roles.html">Roles</a></li>
+              <li class="active"><a href="roles.html">Roles</a></li>
               <li class="nav-header"><i class="icon-signal"></i> Statistics</li>
               <li><a href="stats.html">General</a></li>
-              <li><a href="user-stats.html">Users</a></li>
-              <li><a href="visitor-stats.html">Visitors</a></li>
+              <li><a href="user-stats.html">User</a></li>
+              <li><a href="visitor-stats.html">Visitor</a></li>
               <li class="nav-header"><i class="icon-user"></i> Profile</li>
-              <li class="active"><a href="my-profile.html">My profile</a></li>
+              <li><a href="my-profile.html">My profile</a></li>
               <li><a href="#">Settings</a></li>
 			  <li><a href="#">Logout</a></li> 
             </ul>
           </div>
         </div>
+        <div class="span9">
+		  <div class="row-fluid">
+			<div class="page-header">
+				<h1>New Role <small>Add a new role</small></h1>
+			</div>
+			<form class="form-horizontal">
+				<fieldset>
+					<div class="control-group">
+						<label class="control-label" for="role">Role Name</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="role" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="description">Description</label>
+						<div class="controls">
+							<textarea class="input-xlarge" id="description" rows="3"></textarea>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="slug">Slug</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="slug" />
+						</div>
+					</div>
+					<div class="form-actions">
+						<input type="submit" class="btn btn-success btn-large" value="Save Role" /> <a class="btn" href="roles.html">Cancel</a>
+					</div>					
+				</fieldset>
+			</form>
+		  </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <footer class="well">
+        &copy; Admin
+      </footer>
+
+    </div>
+
+    <script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
